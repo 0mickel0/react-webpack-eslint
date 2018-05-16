@@ -1,0 +1,16 @@
+stages:
+    - deploy
+
+deploy_dev:
+  environment:
+    name: develop
+    url: http://192.168.111.206
+
+  image: docker:latest
+  stage: deploy
+  only:
+    - develop
+  script:
+    - docker-compose stop
+    - docker-compose rm -v -f
+    - docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
